@@ -28,8 +28,17 @@ def main():
         print(b_prefix+"You can either vote or visit, not both")
         print(b_prefix+"Try again")
         sys.exit(1)
+    elif args.visit_url:
+        url_to_visit = args.visit_url
+    elif args.vote_url:
+        url_to_vote = args.vote_url
+    num = args.num
 
-    tor = mask(args.tor_path)
+    try:
+        tor = mask(args.tor_path)
+    except Exception as e:
+        print(b_prefix+"Error: "+str(e))
+        sys.exit(1)
 
     print(g_prefix+"TEST")
     
