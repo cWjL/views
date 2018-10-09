@@ -1,48 +1,40 @@
 #!/usr/bin/env python3
-import stem.process
-from stem import Signal
-from stem.control import Controller
-from splinter import Browser
-import sys, os, subprocess
+import colorama
+from colorama import Fore, Style
+import argparse,sys
+from src.mask import mask
 
-#check tor: netstat -ano | grep LISTEN | grep 9050
 def main():
-    if not check_tor():
-        sys.exit(0)
-    proxyIP = "127.0.0.1"
-    proxyPort = 9150
+    b_prefix = "["+Fore.RED+"*"+Style.RESET_ALL+"] "
+    g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
 
-    proxy_settings = {"network.proxy.type":1,
-                      "network.proxy.ssl": proxyIP,
-                      "network.proxy.ssl_port": proxyPort,
-                      "network.proxy.socks": proxyIP,
-                      "network.proxy.socks_port": proxyPort,
-                      "network.proxy.socks_remote_dns": True,
-                      "network.proxy.ftp": proxyIP,
-                      "network.proxy.ftp_port": proxyPort
-    }
-    browser = Browser('firefox', profile_preferences=proxy_settings)
-    browser.visit("http://www.icanhazip.com")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t",action='store',dest='tor_path',help='Path to start_tor_browser executable')
+    parser.add_argument("-v", action='store',dest='visit_url',help='View this page a whole bunch of times')
+    parser.add_argument("-p",action='store',dest='vote_url',help='Vote in this poll')
+    parser.add_argument("-N",action='store',dest='num',help='Do it this many times')
 
-def check_tor():
+    args = parser.parse_args()
+    tor = None
+    if not args.tor_path:
+        print(b_prefix+"You must enter the file path to your start_tor_browser executable")
+        print(b_prefix+"Try again")
+        sys.exit(1)
+    elif not args.num:
+        print(b_prefix+"You must enter the number of visits/votes you want")
+        print(b_prefix+"Try again")
+        sys.exit(1)
+    elif args.visit_url and args.vote_url:
+        print(b_prefix+"You can either vote or visit, not both")
+        print(b_prefix+"Try again")
+        sys.exit(1)
+
+    tor = mask(args.tor_path)
+
+    print(g_prefix+"TEST")
     
-    CMD = "netstat -ano | grep LISTEN | grep 9150"
-    if(os.system(CMD) > 0):
-        print("Not Bootstrapped")
-        return False
-    else:
-        print("Bootstrap OK")
-        return True
-
-def start_tor(path=None):
-    CMD = "start-tor-browser"
-    start_cmd = ""
-    if path is not None:
-        start_cmd = path+CMD
-    else:
-        start_cmd = "/home/prole/Documents/tor/tor-browser_en-US/Browser/start-tor-browser"
-        
-    p = subprocess.Popen(start_cmd)
+    sys.exit(0)
 
 if __name__ == "__main__":
+    colorama.init()
     main()
