@@ -17,14 +17,14 @@ class mask():
                           "network.proxy.ftp_port": self.proxyPort
         }
 
-    def _check_tor(self):
+    def _check_tor():
         CMD = "netstat -ano | grep LISTEN | grep 9150 > /dev/null 2>&1"
         if(os.system(CMD) > 0):
             return False
         else:
             return True
 
-    def _start_tor(self):
+    def _start_tor():
         CMD = "start-tor-browser"
         try:
             p = subprocess.Popen(self.path+CMD)
@@ -55,11 +55,16 @@ class mask():
               "Mozilla/5.0 (Linux; Android 7.0; HTC 10 Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36",
         ]
         return ua[randint(0, (len(ua)-1))]
-        
-
+    
+    
     def get_tor_browser(self):
-        return Browser('firefox', user_agent=_get_ua(), profile_preferences=self.proxy_settings)
-
+    	if _check_tor():
+            return Browser('firefox', user_agent=_get_ua(), profile_preferences=self.proxy_settings)
+        elif _start_tor():
+            return Browser('firefox', user_agent=_get_ua(), profile_preferences=self.proxy_settings)
+        else:
+            return None
+   	
     def swap_ident(self):
         if _check_tor():
             with Controller.from_port(port=9151) as Controller:
@@ -67,3 +72,22 @@ class mask():
                 controller.signal(Signal.NEWNYM)
             return True
         return False
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
