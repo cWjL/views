@@ -8,23 +8,23 @@ class mask():
         self.proxyPort = 9150
         self.path = path
         self.proxy_settings = {"network.proxy.type":1,
-                          "network.proxy.ssl": proxyIP,
-                          "network.proxy.ssl_port": proxyPort,
-                          "network.proxy.socks": proxyIP,
-                          "network.proxy.socks_port": proxyPort,
+                          "network.proxy.ssl": self.proxyIP,
+                          "network.proxy.ssl_port": self.proxyPort,
+                          "network.proxy.socks": self.proxyIP,
+                          "network.proxy.socks_port": self.proxyPort,
                           "network.proxy.socks_remote_dns": True,
-                          "network.proxy.ftp": proxyIP,
-                          "network.proxy.ftp_port": proxyPort
+                          "network.proxy.ftp": self.proxyIP,
+                          "network.proxy.ftp_port": self.proxyPort
         }
 
-    def _check_tor():
+    def _check_tor(self):
         CMD = "netstat -ano | grep LISTEN | grep 9150 > /dev/null 2>&1"
         if(os.system(CMD) > 0):
             return False
         else:
             return True
 
-    def _start_tor():
+    def _start_tor(self):
         CMD = "start-tor-browser"
         try:
             p = subprocess.Popen(self.path+CMD)
