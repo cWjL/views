@@ -8,23 +8,23 @@ class mask():
         self.proxyPort = 9150
         self.path = path
         self.proxy_settings = {"network.proxy.type":1,
-                          "network.proxy.ssl": self.proxyIP,
-                          "network.proxy.ssl_port": self.proxyPort,
-                          "network.proxy.socks": self.proxyIP,
-                          "network.proxy.socks_port": self.proxyPort,
-                          "network.proxy.socks_remote_dns": True,
-                          "network.proxy.ftp": self.proxyIP,
-                          "network.proxy.ftp_port": self.proxyPort
+                               "network.proxy.ssl": self.proxyIP,
+                               "network.proxy.ssl_port": self.proxyPort,
+                               "network.proxy.socks": self.proxyIP,
+                               "network.proxy.socks_port": self.proxyPort,
+                               "network.proxy.socks_remote_dns": True,
+                               "network.proxy.ftp": self.proxyIP,
+                               "network.proxy.ftp_port": self.proxyPort
         }
-
-    def _check_tor():
+        
+    def _check_tor(self):
         CMD = "netstat -ano | grep LISTEN | grep 9150 > /dev/null 2>&1"
         if(os.system(CMD) > 0):
             return False
         else:
             return True
-
-    def _start_tor():
+        
+    def _start_tor(self):
         CMD = "start-tor-browser"
         try:
             p = subprocess.Popen(self.path+CMD)
@@ -32,7 +32,7 @@ class mask():
             return False
         return True
 
-    def _get_ua():
+    def _get_ua(self):
         ua = ["Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1",
               "Mozilla/5.0 (Linux; U; Android 4.4.2; en-us; SCH-I535 Build/KOT49H) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
               "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
@@ -56,38 +56,17 @@ class mask():
         ]
         return ua[randint(0, (len(ua)-1))]
     
-    
     def get_tor_browser(self):
-    	if _check_tor():
+        if _check_tor() == True:
             return Browser('firefox', user_agent=_get_ua(), profile_preferences=self.proxy_settings)
-        elif _start_tor():
+        elif _start_tor() == True:
             return Browser('firefox', user_agent=_get_ua(), profile_preferences=self.proxy_settings)
-        else:
-            return None
-   	
+        return None
+    
     def swap_ident(self):
         if _check_tor():
             with Controller.from_port(port=9151) as Controller:
                 controller.authenticate()
                 controller.signal(Signal.NEWNYM)
             return True
-        return False
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        return False       
