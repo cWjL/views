@@ -2,7 +2,8 @@
 import colorama
 from colorama import Fore, Style
 import argparse,sys,time
-from src.mask import mask
+#from src.mask import mask
+from src.visits import visits
 
 def main():
     b_prefix = "["+Fore.RED+"*"+Style.RESET_ALL+"] "
@@ -34,18 +35,18 @@ def main():
 
     # Get tor browser.  Need to pass this off to the specific option, either views or votes
     # The following os for testing only
-    try:
-        print(g_prefix+"Starting TOR services")
-        tor = mask(get_config())
-        print(g_prefix+"Starting TOR browser")
-        tor._start_tor()
-        time.sleep(5)
-    except Exception as e:
-        print(b_prefix+"Error: "+str(e))
-        sys.exit(1)
+    #try:
+    #    print(g_prefix+"Starting TOR services")
+    #    tor = mask(get_config())
+    #    print(g_prefix+"Starting TOR browser")
+    #    tor._start_tor()
+    #    time.sleep(5)
+    #except Exception as e:
+    #    print(b_prefix+"Error: "+str(e))
+    #    sys.exit(1)
 
     #print(g_prefix+"TEST")
-    
+    m = visits(args.num, args.visit_url)
     sys.exit(0)
 
 def get_config():
