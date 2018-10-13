@@ -17,14 +17,14 @@ class mask():
                                "network.proxy.ftp_port": self.proxyPort
         }
         
-    def _check_tor():
+    def _check_tor(self):
         CMD = "netstat -ano | grep LISTEN | grep 9150 > /dev/null 2>&1"
         if(os.system(CMD) > 0):
             return False
         else:
             return True
         
-    def _start_tor():
+    def _start_tor(self):
         CMD = "start-tor-browser"
         try:
             p = subprocess.Popen(self.path+CMD)
@@ -32,7 +32,7 @@ class mask():
             return False
         return True
 
-    def _get_ua():
+    def _get_ua(self):
         ua = ["Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1",
               "Mozilla/5.0 (Linux; U; Android 4.4.2; en-us; SCH-I535 Build/KOT49H) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
               "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
