@@ -27,26 +27,25 @@ def main():
         print(b_prefix+"You must either vote or visit")
         print(b_prefix+"Try again")
         sys.exit(1)
-    elif args.visit_url:
+        
+    if args.visit_url and not args.vote_url:
         url_to_visit = args.visit_url
-    elif args.vote_url:
+        url_to_vote = None
+    elif args.vote_url and not args.visit_url:
         url_to_vote = args.vote_url
+        url_to_visit = None
+        
     num = args.num
+    
+    try:
+        m = visits(args.num, url_to_visit, url_to_vote)
+    except Exception as e:
+        print(b_prefix+"Error: "+str(e))
+        sys.exit(1)
 
-    # Get tor browser.  Need to pass this off to the specific option, either views or votes
-    # The following os for testing only
-    #try:
-    #    print(g_prefix+"Starting TOR services")
-    #    tor = mask(get_config())
-    #    print(g_prefix+"Starting TOR browser")
-    #    tor._start_tor()
-    #    time.sleep(5)
-    #except Exception as e:
-    #    print(b_prefix+"Error: "+str(e))
-    #    sys.exit(1)
-
-    #print(g_prefix+"TEST")
-    m = visits(args.num, args.visit_url)
+    print(g_prefix+"Campaign complete")
+    time.sleep(3)
+    print(g_prefix+"Exiting")
     sys.exit(0)
 
 def get_config():
