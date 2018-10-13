@@ -17,10 +17,17 @@ class visits():
         g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
         print(g_prefix+"Starting TOR services")
         tor = mask(self.tor_path)
-        time.sleep(3)
-        print(g_prefix+"Starting TOR browser")
-        browser = tor.get_tor_browser()
-        time.sleep(5)
+        time.sleep(5) # Give tor browser time to open
+        # Get either visit or vote
+        if self.visit is not None:
+            from src.visit import visit
+            # Do visit stuff
+            # Need to pass it the tor object
+        else:
+            from src.vote import vote
+            # Do vote stuff
+            # Need to pass it the tor object
+
 
     def _get_config(self):
         # Need to add file path format check.  Needs to end with a '\'
