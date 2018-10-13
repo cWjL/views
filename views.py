@@ -2,7 +2,6 @@
 import colorama
 from colorama import Fore, Style
 import argparse,sys,time
-#from src.mask import mask
 from src.visits import visits
 
 def main():
@@ -15,6 +14,10 @@ def main():
     parser.add_argument("-N",action='store',dest='num',help='Do it this many times')
 
     args = parser.parse_args()
+    # Add option to ask user for urls and whatnot, if no command line args were provided
+    #if not args.num and not args.visit_url and not args.vote_url:
+    #    print("no args")
+    #    sys.exit(0)
     if not args.num:
         print(b_prefix+"You must enter the number of visits/votes you want")
         print(b_prefix+"Try again")
