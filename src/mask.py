@@ -1,21 +1,33 @@
 import sys,os,subprocess
-from splinter import Browser
+import selenium
+from selenium import webdriver
 from random import randint
 
 class mask():
+    '''
+    Returns selenium Firefox webdriver with proxy settings set to use 
+    TOR browser as socks proxy.
+
+    Every webdriver returned will use a different user agent string.
+
+    mask.swap_ident() must be called, externally, before visiting the page 
+    you want to visit (using driver.get(url)).  If mask.swap_ident() is not
+    called, every visit to the page will be from the the same IP.
+    '''
     def __init__(self, path):
         self.proxyIP = "127.0.0.1"
         self.proxyPort = 9150
         self.path = path
-        self.proxy_settings = {"network.proxy.type":1,
-                               "network.proxy.ssl": self.proxyIP,
-                               "network.proxy.ssl_port": self.proxyPort,
-                               "network.proxy.socks": self.proxyIP,
-                               "network.proxy.socks_port": self.proxyPort,
-                               "network.proxy.socks_remote_dns": True,
-                               "network.proxy.ftp": self.proxyIP,
-                               "network.proxy.ftp_port": self.proxyPort
-        }
+        self.profile = webdriver.FirefoxProfile()
+        self.profile.set_preference("network.proxy.type", 1)
+        self.profile.set_preference("network.proxy.ssl",self.proxyIP)
+        self.profile.set_preference("network.proxy.ssl_port",int(self.proxyPort))  
+        self.profile.set_preference("network.proxy.ftp",self.proxyIP)
+        self.profile.set_preference("network.proxy.ftp_port",int(self.proxyPort))   
+        self.profile.set_preference("network.proxy.socks",self.proxyIP)
+        self.profile.set_preference("network.proxy.socks_port",int(self.proxyPort))
+        self.profile.set_preference("network.proxy.socks_remote_dns",True)
+        
         
     def _check_tor(self):
         CMD = "netstat -ano | grep LISTEN | grep 9150 > /dev/null 2>&1"
@@ -57,11 +69,11 @@ class mask():
         return ua[randint(0, (len(ua)-1))]
     
     def get_tor_browser(self):
-        if self._check_tor():
-            return Browser('firefox', user_agent=self._get_ua(), profile_preferences=self.proxy_settings)
-        elif self._start_tor():
-            return Browser('firefox', user_agent=self._get_ua(), profile_preferences=self.proxy_settings)
-        return None
+        self.profile.set_preference("general.useragent.override",self._get_ua())
+        if not self._check_tor():
+            if not self._start_tor():
+                return None
+        return webdriver.Firefox(self.profile)
     
     def swap_ident(self):
         if self._check_tor():
