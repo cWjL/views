@@ -57,14 +57,14 @@ class mask():
         return ua[randint(0, (len(ua)-1))]
     
     def get_tor_browser(self):
-        if _check_tor() == True:
-            return Browser('firefox', user_agent=_get_ua(), profile_preferences=self.proxy_settings)
-        elif _start_tor() == True:
-            return Browser('firefox', user_agent=_get_ua(), profile_preferences=self.proxy_settings)
+        if self._check_tor():
+            return Browser('firefox', user_agent=self._get_ua(), profile_preferences=self.proxy_settings)
+        elif self._start_tor():
+            return Browser('firefox', user_agent=self._get_ua(), profile_preferences=self.proxy_settings)
         return None
     
     def swap_ident(self):
-        if _check_tor():
+        if self._check_tor():
             with Controller.from_port(port=9151) as Controller:
                 controller.authenticate()
                 controller.signal(Signal.NEWNYM)
