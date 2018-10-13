@@ -1,4 +1,4 @@
-import sys
+import sys,os,time
 from src.mask import mask
 import colorama
 from colorama import Fore, Style
@@ -9,9 +9,22 @@ class visits():
         self.vote = vote
         self.num = num
         self.tor_path = self._get_config()
-        self._test_def()
+        #self._test_def()
+        self._run()
+
+    def _run(self):
+        b_prefix = "["+Fore.RED+"*"+Style.RESET_ALL+"] "
+        g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
+        print(g_prefix+"Starting TOR services")
+        tor = mask(self.tor_path)
+        time.sleep(3)
+        print(g_prefix+"Starting TOR browser")
+        browser = tor.get_tor_browser()
+        time.sleep(5)
 
     def _get_config(self):
+        # Need to add file path format check.  Needs to end with a '\'
+        # Maybe push config import to a seperate object
         conf_lines = []
         with open('src/views.conf', 'r') as conf:
             all_conf_lines = conf.readlines()
