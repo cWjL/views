@@ -17,12 +17,14 @@ class visits():
         g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
         print(g_prefix+"Starting TOR services")
         tor = mask(self.tor_path)
-        time.sleep(5) # Give tor browser time to open
         # Get either visit or vote
         if self.visit is not None:
             from src.visit import visit
             # Do visit stuff
             # Need to pass it the tor object
+            print(g_prefix+"Starting site visits")
+            visit(tor, self.visit, self.num)
+            print(g_prefix+"Done visiting site")
         else:
             from src.vote import vote
             # Do vote stuff
