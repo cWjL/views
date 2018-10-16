@@ -1,6 +1,9 @@
 import sys,os,subprocess
-import selenium
+import selenium,time
+import stem.process
 from selenium import webdriver
+from stem.control import Controller
+from stem import Signal
 from random import randint
 
 class mask():
@@ -27,6 +30,7 @@ class mask():
         self.profile.set_preference("network.proxy.socks",self.proxyIP)
         self.profile.set_preference("network.proxy.socks_port",int(self.proxyPort))
         self.profile.set_preference("network.proxy.socks_remote_dns",True)
+        self.profile.set_preference("browser.privatebrowsing.autostart",True)
         
         
     def _check_tor(self):
@@ -42,6 +46,7 @@ class mask():
             p = subprocess.Popen(self.path+CMD)
         except:
             return False
+        time.sleep(5) # Give browser time to open
         return True
 
     def _get_ua(self):
@@ -77,8 +82,9 @@ class mask():
     
     def swap_ident(self):
         if self._check_tor():
-            with Controller.from_port(port=9151) as Controller:
+            with Controller.from_port(port=9151) as controller:
                 controller.authenticate()
                 controller.signal(Signal.NEWNYM)
+                time.sleep(2) # Give the identity time to reset
             return True
         return False       
