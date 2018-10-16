@@ -13,7 +13,7 @@ class visit():
 
     def _run(self):
         bar = ProgressBar()
-        for i in bar(range(self.n)):
+        for _ in bar(range(self.n)):
             browser = self.tor_driver.get_tor_browser()
             if browser is not None:
                 browser.get(self.url)
