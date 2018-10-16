@@ -46,7 +46,11 @@ class mask():
             p = subprocess.Popen(self.path+CMD)
         except:
             return False
-        time.sleep(5) # Give browser time to open
+        while True: # Give TOR browser time to open
+            if self._check_tor():
+                break
+            else:
+                time.sleep(2)
         return True
 
     def _get_ua(self):
@@ -85,6 +89,6 @@ class mask():
             with Controller.from_port(port=9151) as controller:
                 controller.authenticate()
                 controller.signal(Signal.NEWNYM)
-                time.sleep(2) # Give the identity time to reset
+                time.sleep(1) # Give the identity time to reset
             return True
         return False       
