@@ -15,7 +15,6 @@ class visits():
     def _run(self):
         b_prefix = "["+Fore.RED+"*"+Style.RESET_ALL+"] "
         g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
-        print(g_prefix+"Starting TOR services")
         tor = mask(self.tor_path)
         # Get either visit or vote
         if self.visit is not None:
@@ -23,8 +22,10 @@ class visits():
             # Do visit stuff
             # Need to pass it the tor object
             print(g_prefix+"Starting site visits")
-            visit(tor, self.visit, self.num)
-            print(g_prefix+"Done visiting site")
+            if visit(tor, self.visit, self.num):
+                print(g_prefix+"Site visited "+self.num+" times, with "+self.num+" different IP addresses")
+            else:
+                print(b_prefix+"Something went wrong, check log for details")
         else:
             from src.vote import vote
             # Do vote stuff
