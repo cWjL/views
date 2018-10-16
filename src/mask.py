@@ -1,5 +1,6 @@
 import sys,os,subprocess
 import selenium,time
+from selenium.webdriver.firefox.options import Options
 import stem.process
 from selenium import webdriver
 from stem.control import Controller
@@ -21,6 +22,8 @@ class mask():
         self.proxyIP = "127.0.0.1"
         self.proxyPort = 9150
         self.path = path
+        self.opts = Options()
+        self.opts.add_argument('-private')
         self.profile = webdriver.FirefoxProfile()
         self.profile.set_preference("network.proxy.type", 1)
         self.profile.set_preference("network.proxy.ssl",self.proxyIP)
@@ -82,7 +85,7 @@ class mask():
         if not self._check_tor():
             if not self._start_tor():
                 return None
-        return webdriver.Firefox(self.profile)
+        return webdriver.Firefox(self.profile,firefox_options=self.opts)
     
     def swap_ident(self):
         if self._check_tor():
