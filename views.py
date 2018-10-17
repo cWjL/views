@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 import colorama
 from colorama import Fore, Style
-import argparse,sys,time
+import argparse,sys,time,os,logging
 from src.visits import visits
 
 def main():
     b_prefix = "["+Fore.RED+"*"+Style.RESET_ALL+"] "
     g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
+
+    log = logging.getLogger(__name__)
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)-8s %(message)s',
+                        datefmt='%a, %d %b %Y %H:%M:%S', filename='logs/sec.log', filemode='w')
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", action='store',dest='visit_url',help='View this page a whole bunch of times')
@@ -21,14 +25,17 @@ def main():
     if not args.num:
         print(b_prefix+"You must enter the number of visits/votes you want")
         print(b_prefix+"Try again")
+        log.error('Arugment error: no visit number')
         sys.exit(1)
     elif args.visit_url and args.vote_url:
         print(b_prefix+"You can either vote or visit, not both")
         print(b_prefix+"Try again")
+        log.error('Arugment error: two modes selected, one required')
         sys.exit(1)
     elif not args.visit_url and not args.vote_url:
         print(b_prefix+"You must either vote or visit")
         print(b_prefix+"Try again")
+        log.error('Arugment error: no mode specified')
         sys.exit(1)
         
     if args.visit_url and not args.vote_url:
@@ -41,13 +48,16 @@ def main():
     num = args.num
     
     try:
-        m = visits(args.num, url_to_visit, url_to_vote)
+        m = visits(args.num, log, url_to_visit, url_to_vote)
+        log.info('Starting visit compaign')
     except Exception as e:
         print(b_prefix+"Error: "+str(e))
+        log.error('Exception:'+str(e))
         sys.exit(1)
 
     print(g_prefix+"Campaign complete")
-    time.sleep(3)
+    log.info('Finished visit compaign')
+    time.sleep(2)
     print(g_prefix+"Exiting")
     sys.exit(0)
 
@@ -61,8 +71,8 @@ def get_config():
                 conf_lines.append(conf[1].replace('\n', ''))
     return(conf_lines[0])
 
-    
-
 if __name__ == "__main__":
     colorama.init()
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
     main()
