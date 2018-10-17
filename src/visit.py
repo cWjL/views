@@ -5,10 +5,11 @@ from progressbar import ProgressBar
 from random import randint
 
 class visit():
-    def __init__(self, tor, url, n):
+    def __init__(self, tor, url, n, log):
         self.tor_driver = tor
         self.url = url
         self.n = int(n)
+        self.log = log
         self._run()
 
     def _run(self):
@@ -18,14 +19,13 @@ class visit():
             if browser is not None:
                 browser.get(self.url)
                 browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                time.sleep(2)
                 browser.close() # Close browser
                 time.sleep(randint(0,5)) # Sleep random time 
                 if self.tor_driver.swap_ident():
-                    #TODO log ip swap
-                    tmp = ""
+                    self.log.info('Swapping IP')
                 else:
-                    #TODO log ip swap failure
-                    tmp = ""
+                 	self.log.info('Swap IP failed')	
             else:
                 return False
         return True
