@@ -10,9 +10,8 @@ class visit():
         self.url = url
         self.n = int(n)
         self.log = log
-        self._run()
 
-    def _run(self):
+    def run(self):
         bar = ProgressBar()
         for _ in bar(range(self.n)):
             browser = self.tor_driver.get_tor_browser()
