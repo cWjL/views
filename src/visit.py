@@ -1,6 +1,4 @@
-import stem.process, time
-from stem import Signal
-from stem.control import Controller
+import time
 from progressbar import ProgressBar
 from random import randint
 
