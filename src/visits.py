@@ -10,9 +10,8 @@ class visits():
         self.num = num
         self.log = log
         self.tor_path = self._get_config()
-        self._run()
 
-    def _run(self):
+    def run(self):
         b_prefix = "["+Fore.RED+"*"+Style.RESET_ALL+"] "
         g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
         tor = mask(self.tor_path)
@@ -46,6 +45,10 @@ class visits():
         print("\t\t\tIn this case, the \"ID\" would be \"field-option-one\"")
         print("<input name=\"options\" value=\"136886765\" id=\"field-options-two\" type=\"radio\">")
         print("\t\t\tIn this case, the \"ID\" would be \"field-option-two\"")
+        res = input(g_prefix+"Enter the ID: ")
+        if res is not None:
+            return res
+        return None
 #
     def _get_config(self):
         # Need to add file path format check.  Needs to end with a '\'
