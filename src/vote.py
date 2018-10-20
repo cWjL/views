@@ -1,6 +1,4 @@
-import stem.process, time
-from stem import Signal
-from stem.control import Controller
+import time
 from progressbar import ProgressBar
 from random import randint
 
@@ -14,3 +12,9 @@ class vote():
     def run(self):
         #TODO add vote stuff
         tmp = ""
+
+'''
+ng-click="currentQuestion.isEnabled && doSelect(answer, $index)
+
+indexes are layed out from left to right, starting at 0 (i think)
+'''
