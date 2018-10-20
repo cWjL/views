@@ -50,7 +50,8 @@ def main(log_path):
     num = args.num
     
     try:
-        m = visits(args.num, log, url_to_visit, url_to_vote)
+        vis = visits(args.num, log, url_to_visit, url_to_vote)
+        vis.run()
         log.info('Starting visit compaign')
     except Exception as e:
         print(b_prefix+"Error: "+str(e))
