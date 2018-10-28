@@ -58,7 +58,7 @@ class visits():
         if res is not None:
             return res
         return None
-#
+
     def _get_config(self):
         # Need to add file path format check.  Needs to end with a '\'
         # Maybe push config import to a seperate object
