@@ -1,4 +1,4 @@
-import sys,os,time
+import time
 from src.mask import mask
 import colorama
 from colorama import Fore, Style
@@ -24,26 +24,35 @@ class visits():
                 print(g_prefix+"Site visited "+self.num+" times, with "+self.num+" different IP addresses")
             else:
                 print(b_prefix+"Something went wrong, check log for details")
+                return 1
         else:
-            from src.vote import vote
+            vote_id = self._how_to_id(g_prefix)
+            #print(vote_id)
+            #sys.exit(0)
+            if vote_id is not None:
+                from src.vote import vote
             
-            print(g_prefix+"Starting to vote")
-            vot = vote(tor, self.vote, self.num, vote_id, self.log)
-            if vot.run():
-                print(g_prefix+"Voted "+self.num+" times, with "+self.num+" differernt IP addresses")
+                print(g_prefix+"Starting to vote")
+                vot = vote(tor, self.vote, self.num, vote_id, self.log)
+                if vot.run():
+                    print(g_prefix+"Voted "+self.num+" times, with "+self.num+" differernt IP addresses")
+                else:
+                    print(b_prefix+"Something went worng, check log for details")
+                    return 1
             else:
-                print(b_prefix+"Something went worng, check log for details")
+                return 1
+        return 0
 
-    def _how_to_id(self):
+    def _how_to_id(self, g_prefix):
         print(g_prefix+"You need to provide the \"ID\" of the element you want to vote.")
-        print(g_prefix+"Navigate to "+self.url)
+        print(g_prefix+"Navigate to "+self.vote)
         print(g_prefix+"Find the voting item (button, option, etc.), right click on it and click \"Inspect Element\".")
         print(g_prefix+"Locate the id, it'll look something like the examples below:")
         print("\t\t<p class=\"row answer-text flex-auto flex-center ng-binding\">DO IT</p>")
         print("\t\t\tIn this case, the \"ID\" would be \"DO IT\"")
         print("\t\t<input name=\"options\" value=\"136886764\" id=\"field-options-one\" type=\"radio\">")
         print("\t\t\tIn this case, the \"ID\" would be \"field-option-one\"")
-        print("<input name=\"options\" value=\"136886765\" id=\"field-options-two\" type=\"radio\">")
+        print("\t\t<input name=\"options\" value=\"136886765\" id=\"field-options-two\" type=\"radio\">")
         print("\t\t\tIn this case, the \"ID\" would be \"field-option-two\"")
         res = input(g_prefix+"Enter the ID: ")
         if res is not None:

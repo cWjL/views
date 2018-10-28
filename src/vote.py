@@ -1,4 +1,4 @@
-import time
+import time,sys
 from progressbar import ProgressBar
 from random import randint
 
@@ -7,11 +7,13 @@ class vote():
         self.tor_driver = tor
         self.url = url
         self.n = int(n)
+        self.vote_id = vote_id
         self.log = log
 
     def run(self):
         #TODO add vote stuff
-        tmp = ""
+        print(self.vote_id)
+        sys.exit(0)
 
 '''
 ng-click="currentQuestion.isEnabled && doSelect(answer, $index)

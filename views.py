@@ -50,16 +50,21 @@ def main(log_path):
     num = args.num
     
     try:
-        vis = visits(args.num, log, url_to_visit, url_to_vote)
-        vis.run()
         log.info('Starting visit compaign')
+        vis = visits(args.num, log, url_to_visit, url_to_vote)
+        fate = vis.run()
+        
     except Exception as e:
         print(b_prefix+"Error: "+str(e))
         log.error('Exception:'+str(e))
         sys.exit(1)
+    if fate == 0:
+        print(g_prefix+"Campaign complete")
+        log.info('Finished visit campaign')
 
-    print(g_prefix+"Campaign complete")
-    log.info('Finished visit compaign')
+    else:
+        print(b_prefix+"Campaign finished, but incomplete")
+        log.info('Finished visit campaign.  Unsuccessful')
     time.sleep(2)
     print(g_prefix+"Exiting")
     sys.exit(0)
