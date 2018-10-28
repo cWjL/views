@@ -1,5 +1,4 @@
-import sys,os,subprocess
-import selenium,time
+import sys,os,subprocess,time,selenium
 from selenium.webdriver.firefox.options import Options
 import stem.process
 from selenium import webdriver
@@ -33,7 +32,7 @@ class mask():
         self.profile.set_preference("network.proxy.socks",self.proxyIP)
         self.profile.set_preference("network.proxy.socks_port",int(self.proxyPort))
         self.profile.set_preference("network.proxy.socks_remote_dns",True)
-        self.profile.set_preference("browser.privatebrowsing.autostart",True)
+        #self.profile.set_preference("browser.privatebrowsing.autostart",True)
         
         
     def _check_tor(self):

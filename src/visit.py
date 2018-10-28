@@ -22,7 +22,7 @@ class visit():
                 if self.tor_driver.swap_ident():
                     self.log.info('Swapping IP')
                 else:
-                 	self.log.info('Swap IP failed')	
+                    self.log.info('Swap IP failed')	
             else:
                 return False
         return True
