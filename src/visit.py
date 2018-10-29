@@ -15,6 +15,7 @@ class visit():
             browser = self.tor_driver.get_tor_browser()
             if browser is not None:
                 browser.get(self.url)
+                time.sleep(2)
                 browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 time.sleep(2)
                 browser.close() # Close browser

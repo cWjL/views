@@ -24,15 +24,11 @@ class mask():
         self.opts = Options()
         self.opts.add_argument('-private')
         self.profile = webdriver.FirefoxProfile()
-        self.profile.set_preference("network.proxy.type", 1)
-        self.profile.set_preference("network.proxy.ssl",self.proxyIP)
-        self.profile.set_preference("network.proxy.ssl_port",int(self.proxyPort))  
-        self.profile.set_preference("network.proxy.ftp",self.proxyIP)
-        self.profile.set_preference("network.proxy.ftp_port",int(self.proxyPort))   
+        self.profile.set_preference("network.proxy.type", 1)  
         self.profile.set_preference("network.proxy.socks",self.proxyIP)
         self.profile.set_preference("network.proxy.socks_port",int(self.proxyPort))
         self.profile.set_preference("network.proxy.socks_remote_dns",True)
-        #self.profile.set_preference("browser.privatebrowsing.autostart",True)
+        self.profile.set_preference("browser.privatebrowsing.autostart",True)
         
         
     def _check_tor(self):
@@ -63,12 +59,6 @@ class mask():
               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
               "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0",
               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393",
-              "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)",
-              "Mozilla/5.0 (Windows; U; MSIE 7.0; Windows NT 6.0; en-US)",
-              "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)",
-              "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0;  Trident/5.0)",
-              "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MDDCJS)",
-              "Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko",
               "Mozilla/5.0 (iPad; CPU OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4",
               "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1",
               "Mozilla/5.0 (Linux; Android 6.0.1; SAMSUNG SM-G570Y Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/4.0 Chrome/44.0.2403.133 Mobile Safari/537.36",
@@ -80,7 +70,8 @@ class mask():
         return ua[randint(0, (len(ua)-1))]
     
     def get_tor_browser(self):
-        self.profile.set_preference("general.useragent.override",self._get_ua())
+    	# Messing with the user agent is causing some human checks on some sites
+        #self.profile.set_preference("general.useragent.override",self._get_ua())
         if not self._check_tor():
             if not self._start_tor():
                 return None
