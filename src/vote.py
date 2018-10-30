@@ -16,8 +16,15 @@ class vote():
             browser = self.tor_driver.get_tor_browser()
             if browser is not None:
                 browser.get(self.url)
-                button = browser.find_element_by_id(self.vote_id)
-                button.click()
+                
+                for i in self.vote_id:
+                    try:
+                        button = browser.find_element_by_id(i)
+                        button.click()
+                    except:
+                        button = browser.findElement(By.cssSelector(".submit.icon"))
+                        button.click()
+                    time.sleep(1)
                 time.sleep(2)
                 browser.close()
                 time.sleep(randint(0,5))
@@ -27,6 +34,5 @@ class vote():
                     self.log.info('Swap IP failed')
             else:
                 return False
-        #print(self.vote_id)
-        #sys.exit(0)
+
         return True

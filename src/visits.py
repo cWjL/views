@@ -4,11 +4,12 @@ import colorama
 from colorama import Fore, Style
 
 class visits():
-    def __init__(self, num, log, visit=None, vote=None):
+    def __init__(self, num, log, page_elems=None, visit=None, vote=None):
         self.visit = visit
         self.vote = vote
         self.num = num
         self.log = log
+        self.page_elems = page_elems
         self.tor_path = self._get_config()
 
     def run(self):
@@ -26,14 +27,15 @@ class visits():
                 print(b_prefix+"Something went wrong, check log for details")
                 return 1
         else:
-            vote_id = self._how_to_id(g_prefix)
-            #print(vote_id)
-            #sys.exit(0)
-            if vote_id is not None:
+
+            if self.vote is not None:
                 from src.vote import vote
+                
+                if self.page_elems is None:
+                    self.page_elems = self._how_to_id(g_prefix).split(',')
             
                 print(g_prefix+"Starting to vote")
-                vot = vote(tor, self.vote, self.num, vote_id, self.log)
+                vot = vote(tor, self.vote, self.num, self.page_elems, self.log)
                 if vot.run():
                     print(g_prefix+"Voted "+self.num+" times, with "+self.num+" differernt IP addresses")
                 else:
