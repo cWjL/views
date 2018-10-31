@@ -36,3 +36,9 @@ class vote():
                 return False
 
         return True
+        
+'''
+finds the button, but can't click it
+button2 = browser.find_elements_by_xpath("//*[contains(text(), 'Vote')]")
+
+'''
