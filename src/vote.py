@@ -41,4 +41,9 @@ class vote():
 finds the button, but can't click it
 button2 = browser.find_elements_by_xpath("//*[contains(text(), 'Vote')]")
 
+found button and can click it
+>>> button = driver.find_element_by_xpath("//button[@type='submit']")
+>>> button.click()
+>>> 
+
 '''
