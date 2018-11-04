@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import colorama
 from colorama import Fore, Style
-import argparse,sys,time,os,logging
+import argparse,sys,time,os,logging,traceback
 from src.visits import visits
 
 def main(log_path):
@@ -64,7 +64,7 @@ def main(log_path):
         fate = vis.run()
         
     except Exception as e:
-        print(b_prefix+"Error: "+str(e))
+        print(b_prefix+"Error: "+str(e)+str(traceback.print_exc()))
         log.error('Exception:'+str(e))
         sys.exit(1)
     if fate == 0:

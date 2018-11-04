@@ -9,7 +9,7 @@ class vote():
         self.n = int(n)
         self.vote_id = vote_id # don't need this
         self.log = log
-        self.target_id = _get_vote_profile(self.url)
+        self.target_id = self._get_vote_profile(self.url)
 
     def run(self):
         if self.target_id is not None:
@@ -18,10 +18,12 @@ class vote():
                 browser = self.tor_driver.get_tor_browser()
                 if browser is not None:
                     browser.get(self.url)
-                    time.sleep(1)
                     buttons = []
                     for target in self.target_id:
                         if target[1] is not None:
+                            # This is not a good way to accomplish this
+                            # Need a way to automatically find the voting components and ask the
+                            # user which ones they want to use
                             if target[0] == 0:
                                 buttons.append(browser.find_element_by_id(target[1]))
                             elif target[0] == 1:
@@ -37,7 +39,9 @@ class vote():
 
                     for button in buttons:
                         button.click()
-                        time.sleep(1)
+                        time.sleep(.5)
+                        
+                    browser.close()
                     
                     if self.tor_driver.swap_ident():
                         self.log.info('Swapping IP')
@@ -61,13 +65,17 @@ class vote():
         @param url
         @return tuple
         '''
+        # This is not a good way to accomplish this
+        # Need a way to automatically find the voting components and ask the
+        # user which ones they want to use
         vote_target = [
-            ("strawpoll",((0,"field-options-one"),(1,None),(2,"//button[@type='submit']")(3,None)(4,None)(5,None)),(0, 2)),
-            ("megaphone",((0,None),(1,None),(2,None)(3,None)(4,None)(5,None)))
+            ("strawpoll",((0,"field-options-whore"),(1,None),(2,"//button[@type='submit']"),(3,None),(4,None),(5,None))),
+            ("megaphone",((0,None),(1,None),(2,None),(3,None),(4,None),(5,None)))
         ]
+
         for target in vote_target:
             if target[0][0] in site:
-                return (target[0][1],target[0][2])
+                return (target[1][0],target[1][2])
         return None
 '''
 found button and can click it
