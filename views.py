@@ -18,13 +18,9 @@ def main(log_path):
     parser.add_argument("-v", action='store',dest='visit_url',help='View this page a whole bunch of times')
     parser.add_argument("-p",action='store',dest='vote_url',help='Vote in this poll')
     parser.add_argument("-N",action='store',dest='num',help='Do it this many times')
-    parser.add_argument("-i",action='store',dest='id',help='Comma separated list of page elements to vote')
 
     args = parser.parse_args()
-    # Add option to ask user for urls and whatnot, if no command line args were provided
-    #if not args.num and not args.visit_url and not args.vote_url:
-    #    print("no args")
-    #    sys.exit(0)
+
     if not args.num:
         print(b_prefix+"You must enter the number of visits/votes you want")
         print(b_prefix+"Try again")
@@ -39,28 +35,20 @@ def main(log_path):
         print(b_prefix+"You must either vote or visit")
         print(b_prefix+"Try again")
         log.error('Arugment error: no mode specified')
-        sys.exit(1)
-    elif args.vote_url and not args.id:
-        print(b_prefix+"You must enter the IDs of the page vote elements")
-        print(b_prefix+"Try again")
-        log.error('No vote elements provided')
-        sys.exit(1)
-              
+        sys.exit(1)            
         
     if args.visit_url and not args.vote_url:
         url_to_visit = args.visit_url
         url_to_vote = None
-        vote_elems = None
     elif args.vote_url and not args.visit_url:
         url_to_vote = args.vote_url
-        vote_elems = args.id.split(',')
         url_to_visit = None
         
     num = args.num
     
     try:
-        log.info('Starting visit compaign')
-        vis = visits(args.num, log, vote_elems, url_to_visit, url_to_vote)
+        log.info('Starting campaign')
+        vis = visits(args.num, log, url_to_visit, url_to_vote)
         fate = vis.run()
         
     except Exception as e:
@@ -69,11 +57,11 @@ def main(log_path):
         sys.exit(1)
     if fate == 0:
         print(g_prefix+"Campaign complete")
-        log.info('Finished visit campaign')
+        log.info('Finished campaign')
 
     else:
         print(b_prefix+"Campaign finished, but incomplete")
-        log.info('Finished visit campaign.  Unsuccessful')
+        log.info('Finished campaign.  Unsuccessful')
     time.sleep(2)
     print(g_prefix+"Exiting")
     sys.exit(0)
