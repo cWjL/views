@@ -68,6 +68,8 @@ class vote():
         # This is not a good way to accomplish this
         # Need a way to automatically find the voting components and ask the
         # user which ones they want to use
+        # This can only work if I ingest the page source as and parse for the elements of interest
+        # Try this https://stackoverflow.com/questions/25756436/selenium-returns-a-page-source-in-which-all-tags-names-have-a0-prefixed-to-th
         vote_target = [
             ("strawpoll",((0,"field-options-whore"),(1,None),(2,"//button[@type='submit']"),(3,None),(4,None),(5,None))),
             ("megaphone",((0,None),(1,None),(2,None),(3,None),(4,None),(5,None)))
