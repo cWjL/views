@@ -17,6 +17,7 @@ def main(log_path):
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", action='store',dest='visit_url',help='View this page a whole bunch of times')
     parser.add_argument("-p",action='store',dest='vote_url',help='Vote in this poll')
+    parser.add_argument("-i",action='store_true',dest='no_opt',help='Page has one-click voting')
     parser.add_argument("-N",action='store',dest='num',help='Do it this many times')
 
     args = parser.parse_args()
@@ -48,7 +49,7 @@ def main(log_path):
     
     try:
         log.info('Starting campaign')
-        vis = visits(args.num, log, url_to_visit, url_to_vote)
+        vis = visits(args.num, log, args.no_opt, url_to_visit, url_to_vote)
         fate = vis.run()
         
     except Exception as e:

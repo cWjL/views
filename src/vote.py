@@ -7,23 +7,29 @@ class vote():
         self.tor_driver = tor
         self.url = url
         self.n = int(n)
-        self.vote_id = vote_id # don't need this
+        self.vote_id = vote_id
         self.log = log
         self.target_id = self._get_vote_profile(self.url)
 
     def run(self):
+        '''
+        If vote_id is None, there is only one button to push in order to vote.
+            Get self.target_id[1], use it as the button and click it.
+
+        Otherwise, get self.vote_id as button and self.target_id as button.  Click the 
+        first one first, then the second
+        '''
         if self.target_id is not None:
             bar = ProgressBar()
             for _ in bar(range(self.n)):
                 browser = self.tor_driver.get_tor_browser()
                 if browser is not None:
                     browser.get(self.url)
+                    
                     buttons = []
                     for target in self.target_id:
                         if target[1] is not None:
-                            # This is not a good way to accomplish this
-                            # Need a way to automatically find the voting components and ask the
-                            # user which ones they want to use
+
                             if target[0] == 0:
                                 buttons.append(browser.find_element_by_id(target[1]))
                             elif target[0] == 1:
@@ -59,25 +65,21 @@ class vote():
 
         vote_target elements:
             0:    site key word
-            1:    selenium find option
-            2:    button click order
+            1:    vote button
+
+        If vote button "id" is 0, use this in combination with the "vote_id" provided by
+        the user, otherwise, if "id" is 1, use for both voting and submit (one-click votes)
 
         @param url
         @return tuple
         '''
-        # This is not a good way to accomplish this
-        # Need a way to automatically find the voting components and ask the
-        # user which ones they want to use
-        # This can only work if I ingest the page source as and parse for the elements of interest
-        # Try this https://stackoverflow.com/questions/25756436/selenium-returns-a-page-source-in-which-all-tags-names-have-a0-prefixed-to-th
         vote_target = [
-            ("strawpoll",((0,"field-options-whore"),(1,None),(2,"//button[@type='submit']"),(3,None),(4,None),(5,None))),
-            ("megaphone",((0,None),(1,None),(2,None),(3,None),(4,None),(5,None)))
+            ("strawpoll",(0,"//button[@type='submit']")),
+            ("megaphone",(0,None))
         ]
 
         for target in vote_target:
-            if target[0][0] in site:
-                return (target[1][0],target[1][2])
+            return vote_target[0][1]
         return None
 '''
 found button and can click it

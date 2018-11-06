@@ -1,14 +1,15 @@
-import time,sys
+import time
 from src.mask import mask
 import colorama
 from colorama import Fore, Style
 
 class visits():
-    def __init__(self, num, log, visit=None, vote=None):
+    def __init__(self, num, log, no_opt=False, visit=None, vote=None):
         self.visit = visit
         self.vote = vote
         self.num = num
         self.log = log
+        self.no_opt = no_opt
         self.page_elems = None
         self.tor_path = self._get_config()
 
@@ -31,9 +32,9 @@ class visits():
             if self.vote is not None:
                 from src.vote import vote
                 
-                self.page_elems = self._how_to_id(g_prefix).split(',')
-                print(self.page_elems)
-                sys.exit(0)
+                if not self.no_opt:
+                    self.page_elems = self._how_to_id(g_prefix).split(',')
+
                 print(g_prefix+"Starting to vote")
                 vot = vote(tor, self.vote, self.num, self.page_elems, self.log)
                 if vot.run():
