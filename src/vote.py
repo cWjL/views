@@ -3,11 +3,11 @@ from progressbar import ProgressBar
 from random import randint
 
 class vote():
-    def __init__(self, tor, url, n, vote_id, log):
+    def __init__(self, tor, url, n, page_elems, log):
         self.tor_driver = tor
         self.url = url
         self.n = int(n)
-        self.vote_id = vote_id
+        self.page_elems = page_elems
         self.log = log
         self.target_id = self._get_vote_profile(self.url)
 
@@ -29,19 +29,7 @@ class vote():
                     buttons = []
                     for target in self.target_id:
                         if target[1] is not None:
-
-                            if target[0] == 0:
-                                buttons.append(browser.find_element_by_id(target[1]))
-                            elif target[0] == 1:
-                                buttons.append(browser.find_element_by_name(target[1]))
-                            elif target[0] == 2:
-                                buttons.append(browser.find_element_by_xpath(target[1]))
-                            elif target[0] == 3:
-                                buttons.append(browser.find_element_by_tag_name(target[1]))
-                            elif target[0] == 4:
-                                buttons.append(browser.find_element_by_class_name(target[1]))
-                            elif target[0] == 5:
-                                buttons.append(browser.find_element_by_css_selector(target[1]))
+                            tmp = "this is not working and I haven't figured out how to do it yet"
 
                     for button in buttons:
                         button.click()
@@ -75,7 +63,7 @@ class vote():
         '''
         vote_target = [
             ("strawpoll",(0,"//button[@type='submit']")),
-            ("megaphone",(0,None))
+            ("megaphone",(1,None))
         ]
 
         for target in vote_target:

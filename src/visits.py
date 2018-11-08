@@ -28,7 +28,6 @@ class visits():
                 print(b_prefix+"Something went wrong, check log for details")
                 return 1
         else:
-
             if self.vote is not None:
                 from src.vote import vote
                 
