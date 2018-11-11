@@ -27,9 +27,13 @@ class vote():
                     browser.get(self.url)
                     
                     buttons = []
-                    for target in self.target_id:
-                        if target[1] is not None:
-                            tmp = "this is not working and I haven't figured out how to do it yet"
+
+                    if target[1] is not None: # there should only be one target profile (returned from _get_vote_profile())
+                        if target[0] == 1:
+                            for elem in self.page_elems:
+                                buttons.append(browser.find_element_by_id(elem)) # add the vote selections by ID
+                                
+                            buttons.append(browser.find_element_by_xpath(target[1])) # add the 'submit' button
 
                     for button in buttons:
                         button.click()
