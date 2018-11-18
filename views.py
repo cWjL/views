@@ -56,7 +56,7 @@ def main(log_path):
         log.info('Starting campaign')
         vis = visits(args.num, log, url_to_visit, url_to_vote)
         fate = vis.run()
-            except Exception as e:
+    except Exception as e:
         print(b_prefix+"Error: "+str(e)+str(traceback.print_exc()))
         log.error('Exception:'+str(e))
         sys.exit(1)
