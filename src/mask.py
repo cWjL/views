@@ -8,16 +8,11 @@ from random import randint
 
 class mask():
     '''
-    Returns selenium Firefox webdriver with proxy settings set to use 
-    TOR browser as socks proxy.
-
-    Every webdriver returned will use a different user agent string.
-
-    mask.swap_ident() must be called, externally, before visiting the page 
-    you want to visit (using driver.get(url)).  If mask.swap_ident() is not
-    called, every visit to the page will be from the the same IP.
+    Mask object
     '''
-    def __init__(self, path):
+    def __init__(self, path, g_prefix, b_prefix):
+        self.g_prefix = g_prefix
+        self.b_prefix = b_prefix
         self.proxyIP = "127.0.0.1"
         self.proxyPort = 9150
         self.path = path
@@ -32,6 +27,14 @@ class mask():
         
         
     def _check_tor(self):
+        '''
+        Checks for running TOR browser
+
+        Only works on Linux based systems
+
+        @param none
+        @return boolean status
+        '''
         CMD = "netstat -ano | grep LISTEN | grep 9150 > /dev/null 2>&1"
         if(os.system(CMD) > 0):
             return False
@@ -39,6 +42,12 @@ class mask():
             return True
         
     def _start_tor(self):
+        '''
+        Start TOR browser
+
+        @param none
+        @return boolean status
+        '''
         CMD = "start-tor-browser"
         try:
             p = subprocess.Popen(self.path+CMD)
@@ -52,6 +61,12 @@ class mask():
         return True
 
     def _get_ua(self):
+        '''
+        Get random user agent string
+
+        @param none
+        @return String
+        '''
         ua = ["Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1",
               "Mozilla/5.0 (Linux; U; Android 4.4.2; en-us; SCH-I535 Build/KOT49H) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30",
               "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36",
@@ -70,14 +85,29 @@ class mask():
         return ua[randint(0, (len(ua)-1))]
     
     def get_tor_browser(self):
-    	# Messing with the user agent is causing some human checks on some sites
-        #self.profile.set_preference("general.useragent.override",self._get_ua())
+        '''
+        Get firefox browser using TOR proxy
+
+        @param none
+        @return selenium webdriver
+        '''
         if not self._check_tor():
+            print(self.g_prefix+"TOR not running, starting TOR")
+            time.sleep(2)
             if not self._start_tor():
+                print(self.b_prefix+"Could not start TOR browser")
                 return None
+            else:
+                print(self.g_prefix+"TOR started successfully")
         return webdriver.Firefox(self.profile,firefox_options=self.opts)
     
     def swap_ident(self):
+        '''
+        Swap TOR browser identity
+
+        @param none
+        @return boolean status
+        '''
         if self._check_tor():
             with Controller.from_port(port=9151) as controller:
                 controller.authenticate()

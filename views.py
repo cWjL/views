@@ -5,6 +5,12 @@ import argparse,sys,time,os,logging,traceback
 from src.visits import visits
 
 def main(log_path):
+    '''
+    Either visit a webpage a whole bunch of times (to fake interest in a particular page), or vote in
+    some online poll a bunch of times (currently limited to Strawpoll.me only).
+
+    @author Jacob Loden
+    '''
     b_prefix = "["+Fore.RED+"*"+Style.RESET_ALL+"] "
     g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
     
@@ -17,7 +23,6 @@ def main(log_path):
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", action='store',dest='visit_url',help='View this page a whole bunch of times')
     parser.add_argument("-p",action='store',dest='vote_url',help='Vote in this poll')
-    #parser.add_argument("-i",action='store_true',dest='no_opt',help='Page has one-click voting')
     parser.add_argument("-N",action='store',dest='num',help='Do it this many times')
 
     args = parser.parse_args()
@@ -58,7 +63,7 @@ def main(log_path):
         sys.exit(1)
     if fate == 0:
         print(g_prefix+"Campaign complete")
-        log.info('Finished campaign')
+        log.info('Finished campaign.  Successful')
 
     else:
         print(b_prefix+"Campaign finished, but incomplete")
@@ -68,6 +73,12 @@ def main(log_path):
     sys.exit(0)
 
 def ck_path(fp):
+    '''
+    Check file path format
+
+    @param string filepath
+    @return string formatted filepath
+    '''
     if fp[len(fp)-1] == "\\" or fp[len(fp)-1] == "/":
         return fp
     else:
@@ -78,6 +89,12 @@ def ck_path(fp):
     return fp
 
 def get_config():
+    '''
+    Get configuration file
+
+    @param none
+    @return list
+    '''
     conf_lines = []
     with open('src/views.conf', 'r') as conf:
         all_conf_lines = conf.readlines()
