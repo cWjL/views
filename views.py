@@ -9,7 +9,7 @@ def main(log_path):
     Either visit a webpage a whole bunch of times (to fake interest in a particular page), or vote in
     some online poll a bunch of times (currently limited to Strawpoll.me only).
 
-    @author Jacob Loden
+    @author cWjL
     '''
     b_prefix = "["+Fore.RED+"*"+Style.RESET_ALL+"] "
     g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
