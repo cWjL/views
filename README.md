@@ -8,7 +8,10 @@ website tracking.  Some sites block TOR exit nodes, so the number of visits/vote
 runtime may not reflect the actual number of page visits. This is unavoidable atm.
 
 Currently only supports Strawpoll.me polls.  Add an issue if you find another poll platform you
-want added.<br />
+want added.
+
+Not super fast (approx. 1 visit/vote per 3-5 seconds).  This is a consequence of your network speed and
+the disgustingly bloated size of modern websites.<br />
 
 The following two directories will be created in the ```views.py``` root directory:<br />
 &nbsp;&nbsp;-```logs/```&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores session logs as ```sec.log```<br />
