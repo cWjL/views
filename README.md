@@ -2,7 +2,7 @@
 
 
 
-Script to either visits a web page or vote in some online pole a whole bunch of times.  Uses TOR
+Script to either visit a web page or vote in some online poll a whole bunch of times.  Uses TOR
 browser as a pass through local proxy for anonymization and Firefox private browser to avoid
 website tracking.  Some sites block TOR exit nodes, so the number of visits/votes specified at
 runtime may not reflect the actual number of page visits. This is unavoidable atm.
