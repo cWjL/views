@@ -13,7 +13,7 @@ want added.
 Not super fast (approx. 1 visit/vote per 3-5 seconds).  This is a consequence of your network speed and
 the disgustingly bloated size of modern websites.<br />
 
-The following two directories will be created in the ```views.py``` root directory:<br />
+The following directory will be created in the ```views.py``` root directory:<br />
 &nbsp;&nbsp;-```logs/```&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores session logs as ```sec.log```<br />
 
 
