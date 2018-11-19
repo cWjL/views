@@ -38,8 +38,8 @@ usage: views.py [-h] [-v VISIT_URL] [-p VOTE_URL] [-N NUM]
 
 optional arguments:
   -h, --help    show this help message and exit
-  -v VISIT_URL  View this page a whole bunch of times
-  -p VOTE_URL   Vote in this poll
+  -v VISIT_URL  View this page '-N' times
+  -p VOTE_URL   Vote in this poll '-N' times
   -N NUM        Do it this many times
   
 ```
