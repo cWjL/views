@@ -21,8 +21,8 @@ def main(log_path):
     log_path = ck_path(log_path)
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("-v", action='store',dest='visit_url',help='View this page a whole bunch of times')
-    parser.add_argument("-p",action='store',dest='vote_url',help='Vote in this poll')
+    parser.add_argument("-v", action='store',dest='visit_url',help='View this page \'-N\' times')
+    parser.add_argument("-p",action='store',dest='vote_url',help='Vote in this poll \'-N\' times')
     parser.add_argument("-N",action='store',dest='num',help='Do it this many times')
 
     args = parser.parse_args()
