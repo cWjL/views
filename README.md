@@ -19,13 +19,9 @@ The following directory will be created in the ```views.py``` root directory:<br
 
 **Package requirements:**
 
-&nbsp;&nbsp;colorama
+&nbsp;&nbsp;install requirements
 ```
-pip install colorama
-```
-&nbsp;&nbsp;selenium
-```
-pip install selenium
+pip install -r requirements.txt
 ```
 
 **System Requirements:**
