@@ -1,0 +1,4 @@
+colorama==0.3.7
+progressbar2==3.39.3
+selenium==3.141.0
+stem==1.7.1
