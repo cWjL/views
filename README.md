@@ -27,6 +27,14 @@ pip install -r requirements.txt
 **System Requirements:**
 
 &nbsp;&nbsp;python 3
+&nbsp;&nbsp;TOR Browser
+&nbsp;&nbsp;TOR Service
+&nbsp;&nbsp;Current GeckoDriver for Firefox (https://github.com/mozilla/geckodriver)
+&nbsp;&nbsp;GeckoDriver executable filepath in ```PATH```
+
+**Config**
+
+&nbsp;&nbsp;Add filepath to ```start-tor-browser``` executable to the ```src/views.conf``` file
 
 **Usage:**
 ```
