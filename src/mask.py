@@ -13,18 +13,9 @@ class mask():
     def __init__(self, path, g_prefix, b_prefix):
         self.g_prefix = g_prefix
         self.b_prefix = b_prefix
-        self.proxyIP = "127.0.0.1"
-        self.proxyPort = 9150
         self.path = path
         self.opts = Options()
-        self.opts.add_argument('-private')
-        self.profile = webdriver.FirefoxProfile()
-        self.profile.set_preference("network.proxy.type", 1)  
-        self.profile.set_preference("network.proxy.socks",self.proxyIP)
-        self.profile.set_preference("network.proxy.socks_port",int(self.proxyPort))
-        self.profile.set_preference("network.proxy.socks_remote_dns",True)
-        self.profile.set_preference("browser.privatebrowsing.autostart",True)
-        
+        self.opts.add_argument('-private')      
         
     def _check_tor(self):
         '''
@@ -83,6 +74,40 @@ class mask():
               "Mozilla/5.0 (Linux; Android 7.0; HTC 10 Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36",
         ]
         return ua[randint(0, (len(ua)-1))]
+
+    def _get_tor_browser_profile(self):
+        '''
+        Get TOR browser profile
+
+        @param none
+        @return selenium webdriver
+        '''
+        profile = webdriver.FirefoxProfile()
+        proxyIP = "127.0.0.1"
+        proxyPort = 9150
+        profile.set_preference("network.proxy.type", 1)  
+        profile.set_preference("network.proxy.socks",proxyIP)
+        profile.set_preference("network.proxy.socks_port",int(proxyPort))
+        profile.set_preference("network.proxy.socks_remote_dns",True)
+        profile.set_preference("browser.privatebrowsing.autostart",True)
+        
+        return profile
+
+    def _get_proxy_list(self):
+        ##############################################################################
+        ####################### INCOMPLETE ##########################################
+        #############################################################################
+        '''
+        Get up-to-date list of free proxy server IP:PORT, return it as a list
+        to cycle through.
+
+        OPTIONS:  Return the list of proxies, or return a webdriver using each 
+        proxy....
+
+        Not sure yet
+        '''
+        URI = "https://free-proxy-list.net/"
+
     
     def get_tor_browser(self):
         '''
@@ -99,7 +124,7 @@ class mask():
                 return None
             else:
                 print(self.g_prefix+"TOR started successfully")
-        return webdriver.Firefox(self.profile,firefox_options=self.opts)
+        return webdriver.Firefox(self._get_tor_browser_profile(),firefox_options=self.opts)
     
     def swap_ident(self):
         '''
